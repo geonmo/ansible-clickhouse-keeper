@@ -43,3 +43,6 @@
 - template:
     src: templates/keeper_config.xml.j2
     dest: /etc/clickhouse-keeper/keeper_config.xml
+  when: 
+    - "'keeper' in groups"
+    - "inventory_hostname in groups['keeper']"
