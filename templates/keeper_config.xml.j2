@@ -24,7 +24,7 @@
             </ssl>
             {% else %}
             <tcp_port>{{ keeper_port }}</tcp_port>
-            <% endif %> 
+            {% endif %} 
 
             <!-- Must be unique among all keeper serves -->
             <server_id>{{ keeper_index }}</server_id>
