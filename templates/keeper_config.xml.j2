@@ -25,9 +25,9 @@
 
     <keeper_server>
             {% if enable_ssl %}
-            <tcp_port_secure>{{ keeper_secured_port }}</tcp_port_secure>
+<tcp_port_secure>{{ keeper_secured_port }}</tcp_port_secure>
             {% else %}
-            <tcp_port>{{ keeper_port }}</tcp_port>
+<tcp_port>{{ keeper_port }}</tcp_port>
             {% endif %} 
 
             <!-- Must be unique among all keeper serves -->
@@ -46,8 +46,10 @@
 
             <hostname_checks_enabled>false</hostname_checks_enabled>
             <raft_configuration>
+            {% if enable_ssl %}
+<secure>true</secure>
+            {% endif %} 
 	       {% for host in groups['keeper'] %}
-
                <server>
                     <id>{{ loop.index }}</id>
 		    <hostname>{{ host }}</hostname>
