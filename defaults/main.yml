@@ -1,5 +1,7 @@
 ---
 # defaults file for ansible-clickhouse-keeper
 keeper_port: 2181
+keeper_secured_port: 3181
+enable_ssl: false
 negotiator_port: 9234
 firewall_zone: internal
