@@ -1,5 +1,13 @@
 ---
 # tasks file for ansible-clickhouse-keeper
+- name: Keeper 접근용 포트 개방(SSL)
+  ansible.posix.firewalld:
+    port: "{{ keeper_secured_port }}/tcp"
+    zone: "{{ firewall_zone }}"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  when: enable_ssl
 - name: Keeper 접근용 포트 개방
   ansible.posix.firewalld:
     port: "{{ keeper_port }}/tcp"
@@ -42,6 +50,37 @@
   dnf:
     name: clickhouse-keeper
     state: installed
+- name: Create directory
+  file:
+    path: "/etc/clickhouse-keeper/{{ item }}"
+    owner: clickhouse
+    group: clickhouse
+    mode: "755"
+    state: directory
+  with_items:
+    - "tls"
+    - "ca"
+- name: Copy cert and key to clickhosue directory
+  copy:
+      src: "{{ item }}"
+      dest: "/etc/clickhouse-keeper/tls"
+      owner: clickhouse
+      group: clickhouse
+      remote_src: true
+  with_items:
+    - "/etc/gsdc_ha_system/tls/server.crt"
+    - "/etc/gsdc_ha_system/tls/server.key"
+- name: Change permission for server key
+  file:
+    path: "/etc/clickhouse-keeper/tls/server.key"
+    mode: "0600"
+- name: Copy CA to clickhosue directory
+  copy:
+      src: "/etc/gsdc_ha_system/ca/ca.crt"
+      dest: "/etc/clickhouse-keeper/ca"
+      owner: clickhouse
+      group: clickhouse
+      remote_src: true
 - template:
     src: templates/keeper_config.xml.j2
     dest: /etc/clickhouse-keeper/keeper_config.xml

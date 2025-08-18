@@ -3,8 +3,8 @@
 keeper_port: 2181
 keeper_secured_port: 3181
 enable_ssl: false
-ssl_server_cert: /etc/gsdc_ha_system/tls/server.crt
-privateKeyFile: /etc/gsdc_ha_system/tls/server.key
-caFile: /etc/gsdc_ha_system/ca/CA.crt
+ssl_server_cert: /etc/clickhouse-keeper/tls/server.crt
+ssl_server_key: /etc/clickhouse-keeper/tls/server.key
+ssl_ca_cert: /etc/clickhouse-keeper/ca/CA.crt
 negotiator_port: 9234
 firewall_zone: internal
