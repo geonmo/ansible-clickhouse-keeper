@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+from kazoo.client import KazooClient
+import os,sys
+
+certfile = "{{ ssl_client_cert }}"
+keyfile = "{{ ssl_client_key }}"
+ca = "{{ ssl_ca_cert }}"
+
+if (not os.path.exists(certfile) or  not os.path.exists(keyfile) or not os.path.exists(ca)):
+    print(os.path.exists(certfile), os.path.exists(keyfile), os.path.exists(ca))
+    print("Wrong file")
+    sys.exit(-1)
+
+
+zk = KazooClient(
+    hosts='{{ zookeeper_hosts }}',   # ZooKeeper 주소
+    use_ssl="{{ enable_cli }},                  # SSL 사용 여부
+    certfile=certfile,  # 클라이언트 인증서 (server.crt가 아니라 클라이언트 인증서)
+    keyfile=keyfile,   # 클라이언트 개인키
+    ca=ca,             # CA 인증서
+    verify_certs=True               # 인증서 검증 여부
+)
+
+
+zk.start()
+
+# 예: 루트 노드 리스트 조회
+print(zk.get_children('/'))
+
+zk.stop()
