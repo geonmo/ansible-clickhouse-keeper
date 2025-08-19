@@ -6,5 +6,7 @@ enable_ssl: false
 ssl_server_cert: /etc/clickhouse-keeper/tls/server.crt
 ssl_server_key: /etc/clickhouse-keeper/tls/server.key
 ssl_ca_cert: /etc/clickhouse-keeper/ca/ca.crt
+ssl_client_cert: /usr/local/client_cert/client.crt
+ssl_client_key: /usr/local/client_cert/client.key
 negotiator_port: 9234
 firewall_zone: internal
