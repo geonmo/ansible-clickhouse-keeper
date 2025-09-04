@@ -62,7 +62,7 @@
     - "ca"
   when: enable_ssl
 
-- name: Copy cert and key to clickhosue directory
+- name: Copy cert and key to clickhouse directory
   copy:
       src: "{{ item }}"
       dest: "/etc/clickhouse-keeper/tls"
