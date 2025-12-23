@@ -74,9 +74,7 @@
       owner: clickhouse
       group: clickhouse
       remote_src: true
-  with_items:
   when: enable_ssl
-
 - name: Copy key to clickhouse directory
   copy:
       src: "{{ server_key_source }}"
