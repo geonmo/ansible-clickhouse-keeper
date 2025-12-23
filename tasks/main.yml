@@ -66,18 +66,25 @@
     - "ca"
   when: enable_ssl
 
-- name: Copy cert and key to clickhouse directory
+
+- name: Copy cert to clickhouse directory
   copy:
-      src: "{{ item }}"
-      dest: "/etc/clickhouse-keeper/tls"
+      src: "{{ server_cert_source }}"
+      dest: "/etc/clickhouse-keeper/tls/server.crt"
       owner: clickhouse
       group: clickhouse
       remote_src: true
   with_items:
-    - "{{ server_cert_source }}"
-    - "{{ server_key_source }}"
   when: enable_ssl
 
+- name: Copy key to clickhouse directory
+  copy:
+      src: "{{ server_key_source }}"
+      dest: "/etc/clickhouse-keeper/tls/server.key"
+      owner: clickhouse
+      group: clickhouse
+      remote_src: true
+  when: enable_ssl
 - name: Change permission for server key
   file:
     path: "/etc/clickhouse-keeper/tls/server.key"
