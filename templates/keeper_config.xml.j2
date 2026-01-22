@@ -17,10 +17,10 @@
 
     <openSSL>
 	    <server>
-             <certificateFile>/etc/clickhouse-keeper/tls/server.crt</certificateFile>
-             <privateKeyFile>/etc/clickhouse-keeper/tls/server.key</privateKeyFile>
+             <certificateFile>{{ ssl_server_cert }}</certificateFile>
+             <privateKeyFile>{{ ssl_server_key }}</privateKeyFile>
              <verificationMode>relaxed</verificationMode>
-             <caConfig>/etc/clickhouse-keeper/ca/ca.crt</caConfig>
+             <caConfig>{{ ssl_ca_cert }}</caConfig>
              <cacheSessions>true</cacheSessions>
              <disableProtocols>sslv2,sslv3</disableProtocols>
              <preferServerCiphers>true</preferServerCiphers>

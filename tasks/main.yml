@@ -65,54 +65,17 @@
     - "tls"
     - "ca"
   when: enable_ssl
-
-
-- name: Copy cert to clickhouse directory
-  copy:
-      src: "{{ server_cert_source }}"
-      dest: "/etc/clickhouse-keeper/tls/server.crt"
-      owner: clickhouse
-      group: clickhouse
-      remote_src: true
-  when: enable_ssl
-- name: Copy key to clickhouse directory
-  copy:
-      src: "{{ server_key_source }}"
-      dest: "/etc/clickhouse-keeper/tls/server.key"
-      owner: clickhouse
-      group: clickhouse
-      remote_src: true
-  when: enable_ssl
-- name: Change permission for server key
-  file:
-    path: "/etc/clickhouse-keeper/tls/server.key"
-    mode: "0600"
-  when: enable_ssl
-
-- name: Copy CA to clickhouse directory
-  copy:
-      src: "{{ ca_cert_source }}"
-      dest: "/etc/clickhouse-keeper/ca"
-      owner: clickhouse
-      group: clickhouse
-      remote_src: true
 - template:
     src: templates/keeper_config.xml.j2
     dest: /etc/clickhouse-keeper/keeper_config.xml
   when: 
     - "'keeper' in groups"
     - "inventory_hostname in groups['keeper']"
-
-- name: ca.crt 인증서를 신뢰하는 인증서로 등록
-  copy:
-      src: "{{ ca_cert_source }}"
-      dest: "/etc/pki/ca-trust/source/anchors/"
-      remote_src: true
-  when: enable_ssl
-
-- name: update ca
-  shell: "update-ca-trust extract"
-  when: enable_ssl
+- name: Pre-install and setup about CA and Server certificates
+  include_tasks: setup_ca.yml
+  when:
+   - enable_ssl
+   - setup_ca_cert 
 
 - name: Create kazoo client program
   template:

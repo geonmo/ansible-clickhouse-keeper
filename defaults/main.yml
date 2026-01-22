@@ -3,6 +3,7 @@
 keeper_port: 2181
 keeper_secured_port: 3181
 enable_ssl: false
+setup_ca_cert: false
 server_cert_source: /tls/server.crt
 server_key_source: /tls/server.key
 ca_cert_source: /tls/ca.crt

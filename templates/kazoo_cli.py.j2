@@ -13,7 +13,7 @@ if (not os.path.exists(certfile) or  not os.path.exists(keyfile) or not os.path.
 
 
 zk = KazooClient(
-    hosts='{{ zookeeper_hosts }}',   # ZooKeeper 주소
+    hosts='{{ keeper_hosts }}',   # ZooKeeper 주소
     use_ssl="{{ enable_cli }},                  # SSL 사용 여부
     certfile=certfile,  # 클라이언트 인증서 (server.crt가 아니라 클라이언트 인증서)
     keyfile=keyfile,   # 클라이언트 개인키
